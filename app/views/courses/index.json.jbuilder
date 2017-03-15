@@ -1,0 +1,2 @@
+json.courses do
+end
