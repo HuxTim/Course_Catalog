@@ -2,19 +2,27 @@ require 'json'
 Course.delete_all
 Subject.delete_all
 Instructor.delete_all
+User.delete_all
+Enrollment.delete_all
+CourseSubject.delete_all
 
-json_subjects = ActiveSupport::JSON.decode(File.read('db/subject.json'))
-json_courses = ActiveSupport::JSON.decode(File.read('db/course.json'))
-json_instructors = ActiveSupport::JSON.decode(File.read('db/instructor.json'))
+subjects = ActiveSupport::JSON.decode(File.read('db/subject.json'))
+courses = ActiveSupport::JSON.decode(File.read('db/course.json'))
+instructors = ActiveSupport::JSON.decode(File.read('db/instructor.json'))
 
-json_subjects.each do |a|
-	Subject.create!( :term => ['term'], :name => ['name'], :abbreviation => ['abbreviation'])
+
+subjects.each do |subject|
+  Subject.create!(:name => subject['name'], :indicator => subject['id'])
 end
 
-json_courses.each do |a|
-	Course.create!( :term => a['term'], :subjects => a['subjects'], :name => a['name'], :independent_study => a[':independent_study'], :requirements => a['requirements'])
+courses.each do |course|
+	@course = Course.create!(:name => course['name'], :code => course['code'], :desc => course['description'])
+	cSubject = course['subjects']
+	cSubject.each do |subject|
+		CourseSubject.create!(:course_id => @course.id, :subject_indicator => subject['id'])
+	end
 end
 
-json_instructors.each do |a|
-	Instructor.create!(:last => a['last'], :comment => a['comment'], :email => a['email'])
+instructors.each do |a|
+	Instructor.create!(:last => a['last'], :email => a['email'])
 end
