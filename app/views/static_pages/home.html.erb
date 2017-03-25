@@ -2,11 +2,36 @@
 <div class="center jumbotron">
   <h1>Welcome to the Course Catalog</h1>
 
-  <h2>
-    This is the home page for the Course Catalog application
-  </h2>
   <% if logged_in? %>
-  
+  <h2>Welcome <%= current_user.name %></h2>
+  <% if @enrollments.blank? %>
+    <p>You are currently not enrolled in any classes now</p>
+    <%= link_to "Enroll Now!", search_path, class: "btn btn-lg btn-primary" %>
+  <% else %>
+  <div class="row">
+  <p id="notice"><%= notice %></p>
+  <h5>You are enrolled in the following courses:</h5>
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @enrollments.each do |enrollment| %>
+        <tr>
+  	  	    <td><%= enrollment.course_id %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+  </div>
+  <%= link_to "Enroll in more classes!", search_path, class: "btn btn-md btn-primary" %>
+  <% end %>
+
   <% else %>
   <%= link_to "Login", login_path, class: "btn btn-lg btn-primary" %>
   <%= link_to "Sign up", signup_path, class: "btn btn-lg btn-primary" %>

@@ -1,5 +1,5 @@
 class Subject < ApplicationRecord
-  has_many :relationships, dependent:   :destroy
-  has_many :courses, :through => :relationships
+  has_many :course_subject, dependent:   :destroy
+  has_many :courses, :through => :course_subject
   self.primary_key = "indicator"
 end

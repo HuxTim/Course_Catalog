@@ -19,7 +19,7 @@ courses.each do |course|
 	@course = Course.create!(:name => course['name'], :code => course['code'], :desc => course['description'])
 	cSubject = course['subjects']
 	cSubject.each do |subject|
-		CourseSubject.create!(:course_id => @course.id, :subject_indicator => subject['id'])
+		CourseSubject.create!(:course_id => @course.id, :subject_id => subject['id'])
 	end
 end
 
